@@ -1,0 +1,420 @@
+// // import React, { useState, useEffect } from 'react';
+// // import Plot from 'react-plotly.js';
+// // import axios from 'axios';
+// // import { useUser } from '../UserContext';
+
+// // const ApexBrushChart = () => {
+// //   const [stocks, setStocks] = useState([]);
+// //   const [stockId, setStockId] = useState('');
+// //   const [startDate, setStartDate] = useState('');
+// //   const [endDate, setEndDate] = useState('');
+// //   const [transactions, setTransactions] = useState([]);
+// //   const [profit, setProfit] = useState(null);
+// //   const [validationError, setValidationError] = useState(null);
+// //   const { userId } = useUser();
+// //   const [futurePredictions, setFuturePredictions] = useState([]);
+
+// //   useEffect(() => {
+// //     // Fetch stocks when the component mounts
+// //     axios.get('http://127.0.0.1:5000/stocks')
+// //       .then(response => {
+// //         setStocks(response.data);
+// //       })
+// //       .catch(error => {
+// //         console.error('Error fetching stocks:', error);
+// //       });
+// //   }, []);
+
+// //   useEffect(() => {
+// //     // Fetch transactions when stockId, startDate, or endDate changes
+// //     if (stockId && startDate && endDate) {
+// //       // Validate dates
+// //       if (new Date(startDate) > new Date(endDate)) {
+// //         setValidationError('Error, Please correct the date given.');
+// //         setTransactions([]); // Clear transactions
+// //         setProfit(null); // Clear profit
+// //         return;
+// //       } else {
+// //         setValidationError(null); // Clear validation error
+// //       }
+
+// //       axios.get(`http://127.0.0.1:5000/stocktransactionsreport?stock_id=${stockId}&start_date=${startDate}&end_date=${endDate}`, {
+// //           headers: {
+// //             Authorization: `${userId}`, // Include the user ID in the headers
+// //           },
+// //         })
+// //         .then(response => {
+// //           setTransactions(response.data.transactions);
+// //           setValidationError(null);
+// //         })
+// //         .catch(error => {
+// //           console.error('Error fetching transactions:', error);
+// //         });
+
+// //       // Fetch profit
+// //       axios.get(`http://127.0.0.1:5000/stockprofitreport?stock_id=${stockId}&start_date=${startDate}&end_date=${endDate}`, {
+// //           headers: {
+// //             Authorization: `${userId}`, // Include the user ID in the headers
+// //           },
+// //         })
+// //         .then(response => {
+// //           console.log("Hello", userId)
+// //           setProfit(response.data.profit);
+// //         })
+// //         .catch(error => {
+// //           console.error('Error fetching profit:', error);
+// //         });
+// //     }
+// //   }, [stockId, startDate, endDate, userId]);
+
+// //   useEffect(() => {
+// //     // Fetch future predictions when stockId and endDate change
+// //     if (stockId && endDate) {
+// //       // Validate dates
+// //       if (new Date(startDate) > new Date(endDate)) {
+// //         setValidationError('Error, Please correct the date given.');
+// //         setTransactions([]); // Clear transactions
+// //         setProfit(null); // Clear profit
+// //         setFuturePredictions([]); // Clear future predictions
+// //         return;
+// //       } else {
+// //         setValidationError(null); // Clear validation error
+// //       }
+
+// //       // Fetch future predictions
+// //       axios.post(`http://127.0.0.1:5000/predict_stock_future_transactions`, {
+// //           stock_id: stockId,
+// //           end_date: endDate,
+// //         }, {
+// //           headers: {
+// //             Authorization: userId, // Include the user ID in the headers
+// //           },
+// //         })
+// //         .then(response => {
+// //           // Check if the response has predictions field
+// //           const predictions = response.data.future_predictions || [];
+// //           setFuturePredictions(predictions);
+// //         })
+// //         .catch(error => {
+// //           console.error('Error fetching future predictions:', error);
+// //         });
+// //     }
+// //   }, [stockId, endDate, userId]);
+
+// //   // Render future predictions as a table
+// //   const renderFuturePredictions = () => {
+// //     return (
+// //       <div>
+// //         <h3>Future Predictions</h3>
+// //         <table border="1">
+// //           <thead>
+// //             <tr>
+// //               <th>Date</th>
+// //               <th>Action</th>
+// //             </tr>
+// //           </thead>
+// //           <tbody>
+// //             {futurePredictions.map(prediction => (
+// //               <tr key={prediction[0]}>
+// //                 {/* Format the date using toLocaleDateString */}
+// //                 <td>{new Date(prediction[0]).toLocaleDateString()}</td>
+// //                 <td>{prediction[1]}</td>
+// //               </tr>
+// //             ))}
+// //           </tbody>
+// //         </table>
+// //       </div>
+// //     );
+// //   };
+
+// //   // Extract buy and sell transactions
+// //   const buyTransactions = transactions.filter(transaction => transaction.transaction_type === 'BUY');
+// //   const sellTransactions = transactions.filter(transaction => transaction.transaction_type === 'SELL');
+
+// //   // Extract quantities and total prices for buy and sell transactions
+// //   const buyQuantities = buyTransactions.map(transaction => transaction.quantity);
+// //   const buyTotalPrices = buyTransactions.map(transaction => transaction.total_price);
+// //   const sellQuantities = sellTransactions.map(transaction => transaction.quantity);
+// //   const sellTotalPrices = sellTransactions.map(transaction => transaction.total_price);
+
+// //   // Create a plot data array
+// //   const plotData = [
+// //     {
+// //       x: buyQuantities,
+// //       y: buyTotalPrices,
+// //       type: 'scatter',
+// //       mode: 'lines+markers',
+// //       name: 'Buy',
+// //       line: { color: 'blue' },
+// //       marker: { color: 'blue' },
+// //       hoverinfo: 'text',
+// //       text: buyQuantities.map((quantity, index) => `Quantity: ${quantity}, Total Price: ${buyTotalPrices[index]}`),
+// //     },
+// //     {
+// //       x: sellQuantities,
+// //       y: sellTotalPrices,
+// //       type: 'scatter',
+// //       mode: 'lines+markers',
+// //       name: 'Sell',
+// //       line: { color: 'red' },
+// //       marker: { color: 'red' },
+// //       hoverinfo: 'text',
+// //       text: sellQuantities.map((quantity, index) => `Quantity: ${quantity}, Total Price: ${sellTotalPrices[index]}`),
+// //     },
+// //   ];
+
+// //   // Layout configuration
+// //   const layout = {
+// //     title: 'Stock Transactions Report',
+// //     xaxis: { title: 'Date' },
+// //     yaxis: { title: 'Total Price' },
+// //   };
+
+// //   return (
+// //     <div>
+// //       <div>
+// //         <label htmlFor="stockSelect">Select Stock: </label>&nbsp;&nbsp;&nbsp;&nbsp;
+// //         <select id="stockSelect" onChange={(e) => setStockId(e.target.value)}>
+// //           <option value="">Select a stock</option>
+// //           {stocks.map(stock => (
+// //             <option key={stock.id} value={stock.id}>{stock.stock_name}</option>
+// //           ))}
+// //         </select>
+// //       </div>
+// //       <br />
+// //       <div>
+// //         <label htmlFor="startDate">Start Date: </label>&nbsp;&nbsp;&nbsp;&nbsp;
+// //         <input type="date" id="startDate" onChange={(e) => setStartDate(e.target.value)} />
+// //       </div>
+// //       <br />
+// //       <div>
+// //         <label htmlFor="endDate">End Date: </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+// //         <input type="date" id="endDate" onChange={(e) => setEndDate(e.target.value)} min={startDate} />
+// //       </div>
+// //       <br />
+// //       {validationError && (
+// //         <div style={{ color: 'red' }}>
+// //           {validationError}
+// //         </div>
+// //       )}
+// //       {profit !== null && (
+// //         <div>
+// //           <p>Profit: ₹{profit}</p>
+// //         </div>
+// //       )}
+// //       {renderFuturePredictions()}
+// //       <br />
+// //       <br />
+// //       <Plot data={plotData} layout={layout} />
+// //     </div>
+// //   );
+// // };
+
+// // export default ApexBrushChart;
+// import React, { useState, useEffect } from 'react';
+// import axios from 'axios';
+// import { useUser } from '../UserContext';
+// import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+
+// const ApexBrushChart = () => {
+//   const [stocks, setStocks] = useState([]);
+//   const [stockId, setStockId] = useState('');
+//   const [startDate, setStartDate] = useState('');
+//   const [endDate, setEndDate] = useState('');
+//   const [transactions, setTransactions] = useState([]);
+//   const [profit, setProfit] = useState(null);
+//   const [validationError, setValidationError] = useState(null);
+//   const { userId } = useUser();
+//   const [futurePredictions, setFuturePredictions] = useState([]);
+
+//   useEffect(() => {
+//     // Fetch stocks when the component mounts
+//     axios.get('http://127.0.0.1:5000/stocks')
+//       .then(response => {
+//         setStocks(response.data);
+//       })
+//       .catch(error => {
+//         console.error('Error fetching stocks:', error);
+//       });
+//   }, []);
+
+//   useEffect(() => {
+//     // Fetch transactions when stockId, startDate, or endDate changes
+//     if (stockId && startDate && endDate) {
+//       // Validate dates
+//       if (new Date(startDate) > new Date(endDate)) {
+//         setValidationError('Error, Please correct the date given.');
+//         setTransactions([]); // Clear transactions
+//         setProfit(null); // Clear profit
+//         return;
+//       } else {
+//         setValidationError(null); // Clear validation error
+//       }
+
+//       axios.get(`http://127.0.0.1:5000/stocktransactionsreport?stock_id=${stockId}&start_date=${startDate}&end_date=${endDate}`, {
+//           headers: {
+//             Authorization: `${userId}`, // Include the user ID in the headers
+//           },
+//         })
+//         .then(response => {
+//           setTransactions(response.data.transactions);
+//           setValidationError(null);
+//         })
+//         .catch(error => {
+//           console.error('Error fetching transactions:', error);
+//         });
+
+//       // Fetch profit
+//       axios.get(`http://127.0.0.1:5000/stockprofitreport?stock_id=${stockId}&start_date=${startDate}&end_date=${endDate}`, {
+//           headers: {
+//             Authorization: `${userId}`, // Include the user ID in the headers
+//           },
+//         })
+//         .then(response => {
+//           console.log("Hello", userId)
+//           setProfit(response.data.profit);
+//         })
+//         .catch(error => {
+//           console.error('Error fetching profit:', error);
+//         });
+//     }
+//   }, [stockId, startDate, endDate, userId]);
+
+//   useEffect(() => {
+//     // Fetch future predictions when stockId and endDate change
+//     if (stockId && endDate) {
+//       // Validate dates
+//       if (new Date(startDate) > new Date(endDate)) {
+//         setValidationError('Error, Please correct the date given.');
+//         setTransactions([]); // Clear transactions
+//         setProfit(null); // Clear profit
+//         setFuturePredictions([]); // Clear future predictions
+//         return;
+//       } else {
+//         setValidationError(null); // Clear validation error
+//       }
+
+//       // Fetch future predictions
+//       axios.post(`http://127.0.0.1:5000/predict_stock_future_transactions`, {
+//           stock_id: stockId,
+//           end_date: endDate,
+//         }, {
+//           headers: {
+//             Authorization: userId, // Include the user ID in the headers
+//           },
+//         })
+//         .then(response => {
+//           // Check if the response has predictions field
+//           const predictions = response.data.future_predictions || [];
+//           setFuturePredictions(predictions);
+//         })
+//         .catch(error => {
+//           console.error('Error fetching future predictions:', error);
+//         });
+//     }
+//   }, [stockId, endDate, userId]);
+
+//   // Render future predictions as a table
+//   const renderFuturePredictions = () => {
+//     return (
+//       <div>
+//         <h3>Future Predictions</h3>
+//         <table border="1">
+//           <thead>
+//             <tr>
+//               <th>Date</th>
+//               <th>Action</th>
+//             </tr>
+//           </thead>
+//           <tbody>
+//             {futurePredictions.map(prediction => (
+//               <tr key={prediction[0]}>
+//                 {/* Format the date using toLocaleDateString */}
+//                 <td>{new Date(prediction[0]).toLocaleDateString()}</td>
+//                 <td>{prediction[1]}</td>
+//               </tr>
+//             ))}
+//           </tbody>
+//         </table>
+//       </div>
+//     );
+//   };
+
+//   // Extract buy and sell transactions
+//   const buyTransactions = transactions.filter(transaction => transaction.transaction_type === 'BUY');
+//   const sellTransactions = transactions.filter(transaction => transaction.transaction_type === 'SELL');
+
+//   // Extract quantities and total prices for buy and sell transactions
+//   const buyData = buyTransactions.map(transaction => ({
+//     date: transaction.transaction_date,
+//     quantity: transaction.quantity,
+//     totalPrice: transaction.total_price,
+//   }));
+//   const sellData = sellTransactions.map(transaction => ({
+//     date: transaction.transaction_date,
+//     quantity: transaction.quantity,
+//     totalPrice: transaction.total_price,
+//   }));
+
+//   return (
+//     <div>
+//       <div>
+//         <label htmlFor="stockSelect">Select Stock: </label>&nbsp;&nbsp;&nbsp;&nbsp;
+//         <select id="stockSelect" onChange={(e) => setStockId(e.target.value)}>
+//           <option value="">Select a stock</option>
+//           {stocks.map(stock => (
+//             <option key={stock.id} value={stock.id}>{stock.stock_name}</option>
+//           ))}
+//         </select>
+//       </div>
+//       <br />
+//       <div>
+//         <label htmlFor="startDate">Start Date: </label>&nbsp;&nbsp;&nbsp;&nbsp;
+//         <input type="date" id="startDate" onChange={(e) => setStartDate(e.target.value)} />
+//       </div>
+//       <br />
+//       <div>
+//         <label htmlFor="endDate">End Date: </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+//         <input type="date" id="endDate" onChange={(e) => setEndDate(e.target.value)} min={startDate} />
+//       </div>
+//       <br />
+//       {validationError && (
+//         <div style={{ color: 'red' }}>
+//           {validationError}
+//         </div>
+//       )}
+//       {profit !== null && (
+//         <div>
+//           <p>Profit: ₹{profit}</p>
+//         </div>
+//       )}
+//       {renderFuturePredictions()}
+//       <br />
+//       <br />
+//       <ResponsiveContainer width="100%" height={400}>
+//         <LineChart data={buyData}>
+//           <CartesianGrid strokeDasharray="3 3" />
+//           <XAxis dataKey="date" />
+//           <YAxis />
+//           <Tooltip />
+//           <Legend />
+//           <Line type="monotone" dataKey="totalPrice" stroke="#8884d8" activeDot={{ r: 8 }} />
+         
+//         </LineChart>
+//           <LineChart data={sellData}>
+//           <CartesianGrid strokeDasharray="3 3" />
+//           <XAxis dataKey="date" />
+//           <YAxis />
+//           <Tooltip />
+//           <Legend />
+//           <Line type="monotone" dataKey="totalPrice" stroke="#82ca9d" activeDot={{ r: 8 }} />
+//         </LineChart>
+//       </ResponsiveContainer>
+//       <ResponsiveContainer width="100%" height={400}>
+      
+//       </ResponsiveContainer>
+//     </div>
+//   );
+// };
+
+// export default ApexBrushChart;

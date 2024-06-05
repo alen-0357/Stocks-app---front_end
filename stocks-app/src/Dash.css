@@ -1,0 +1,97 @@
+.paddingall{
+  padding: 10px 10px 10px 10px;
+}
+
+.pricetitle{
+  
+  font-weight: 600;
+}
+
+.pricesubtitle{
+  font-size: 14px;
+}
+
+.iconstyle{
+ 
+  margin-top: 10px;
+  margin-left: 20px;
+  margin-bottom: 10px;
+  color: aliceblue;
+ 
+}
+
+.gradient{
+  background: rgb(152, 75, 50);
+  background: linear-gradient(158deg, rgba(152, 75, 50,1)0%,rgb(159, 169, 47)100%);
+}
+.gradientlight{
+  background: rgb(53,138,148);
+  background: linear-gradient(158deg, rgba(53,138,148,1)0%,rgba(91,100,96,1)100%);
+}
+.bgcolor{
+  min-height :100vh;
+  background:#ECEFF1;
+  background: linear-gradient(150deg, rgba(224,224,224) 0%, rrgb(223,237,254)100%);
+}
+
+.btnStyle{
+
+  left: 500px;
+  border-radius: 4px;
+  padding: 5px 30px;
+  margin:8px 70px;
+}
+
+.btnStyle1{
+
+  left: 50px;
+  border-radius: 10px;
+  padding: 5px 30px;
+  margin:10px 70px;
+}
+
+/* PortfolioReport.css */
+
+.portfolio-container {
+  margin: 20px;
+}
+
+.portfolio-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.portfolio-table th, .portfolio-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.portfolio-table th {
+  background-color: #f2f2f2;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}

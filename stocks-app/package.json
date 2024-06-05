@@ -1,0 +1,62 @@
+{
+  "name": "stocks-app",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@coreui/icons-react": "^2.2.1",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/icons-material": "^5.15.0",
+    "@mui/joy": "^5.0.0-beta.24",
+    "@mui/material": "^5.15.19",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "ag-grid-community": "^31.0.1",
+    "ag-grid-react": "^31.0.1",
+    "axios": "^1.6.3",
+    "chart.js": "^4.4.1",
+    "chartjs-adapter-date-fns": "^3.0.0",
+    "chartjs-plugin-datalabels": "^2.2.0",
+    "firebase": "^10.7.1",
+    "moment": "^2.30.1",
+    "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
+    "react-dom": "^18.2.0",
+    "react-plotly.js": "^2.6.0",
+    "react-router-dom": "^6.20.1",
+    "react-scripts": "5.0.1",
+    "react-simple-chatbot": "^0.6.1",
+    "recharts": "^2.11.0",
+    "semantic-ui-react": "^2.1.5",
+    "styled-components": "^4.4.1",
+    "sweetalert2": "^11.10.1",
+    "uuid": "^9.0.1",
+    "web-vitals": "^2.1.4",
+    "zustand": "^4.4.7"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
