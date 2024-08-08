@@ -4,7 +4,7 @@ import { useUser } from '../UserContext';
 import '../Dash.css';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../firebase.config'; 
-import { Card, CardContent, Typography, CircularProgress, Box } from '@mui/material';
+import { Card, CardContent, Typography, CircularProgress, Box, Grid } from '@mui/material';
 
 const PortfolioReport = () => {
   const [buyPortfolioData, setBuyPortfolioData] = useState([]);
@@ -13,6 +13,8 @@ const PortfolioReport = () => {
   const [error, setError] = useState(null);
   const { userId } = useUser();
   const [depositedFunds, setDepositedFunds] = useState(0);
+  const [totalInvested, setTotalInvested] = useState(0);
+  const [totalSold, setTotalSold] = useState(0);
 
   useEffect(() => {
     // Fetch data only if user ID is available
@@ -33,8 +35,10 @@ const PortfolioReport = () => {
 
       if (transactionType === 'BUY') {
         setBuyPortfolioData(response.data);
+        calculateTotalInvested(response.data);
       } else if (transactionType === 'SELL') {
         setSellPortfolioData(response.data);
+        calculateTotalSold(response.data);
       }
     } catch (error) {
       console.error(`Error fetching ${transactionType} portfolio data:`, error);
@@ -59,6 +63,22 @@ const PortfolioReport = () => {
     }
   };
 
+  const calculateTotalInvested = (data) => {
+    let total = 0;
+    data.forEach((stock) => {
+      total += parseFloat(stock.total_price);
+    });
+    setTotalInvested(total);
+  };
+
+  const calculateTotalSold = (data) => {
+    let total = 0;
+    data.forEach((stock) => {
+      total += parseFloat(stock.total_price);
+    });
+    setTotalSold(total);
+  };
+
   // Render loading or error message if user ID is still not available
   if (!userId) {
     return <p>Loading portfolio data...</p>;
@@ -70,7 +90,8 @@ const PortfolioReport = () => {
 
    
       {/* Display Deposited Funds */}
-      <Box display="flex" justifyContent="left" marginBottom={4}>
+      <Grid container spacing={2} marginBottom={4}>
+        <Grid item xs={3}>
         <Card variant="outlined" style={{ minWidth: 275 }}>
           <CardContent>
             <Typography variant="h5" component="div">
@@ -85,7 +106,45 @@ const PortfolioReport = () => {
             )}
           </CardContent>
         </Card>
-      </Box>
+        </Grid>
+     
+
+        {/* Display Total Money Invested */}
+        <Grid item xs={4}>
+        <Card variant="outlined" style={{ minWidth: 275 }}>
+          <CardContent>
+            <Typography variant="h5" component="div">
+              Total Money Invested in Stocks
+            </Typography>
+            {loading && <CircularProgress />}
+            {error && <Typography color="error">{error}</Typography>}
+            {!loading && !error && (
+              <Typography variant="h4" component="div">
+                {totalInvested} INR
+              </Typography>
+            )}
+          </CardContent>
+        </Card>
+        </Grid>
+
+        {/* Display Total Money when Sold */}
+        <Grid item xs={4}>
+        <Card variant="outlined" style={{ minWidth: 275 }}>
+          <CardContent>
+            <Typography variant="h5" component="div">
+              Total Money by Selling Stocks
+            </Typography>
+            {loading && <CircularProgress />}
+            {error && <Typography color="error">{error}</Typography>}
+            {!loading && !error && (
+              <Typography variant="h4" component="div">
+                {totalSold} INR
+              </Typography>
+            )}
+          </CardContent>
+        </Card>
+        </Grid></Grid>
+      
 
 
       {/* Display BUY portfolio data */}

@@ -13,7 +13,9 @@ import AuthProvider from './AuthProvider';
 import View_Portfolio from "./Pages/View Portfolio";
 import The_FuturePredictions from "./Pages/Future predictions";
 import Upload_Docs from "./Pages/Upload Docs";
-
+// import Stockdetails from "./Pages/Stocksdetails";
+import Aboutstocks from "./Stocks_Details_Home/About_stocks";
+import Listingstocks from "./Pages/Listingstocks";
 
 
 export default function App() {
@@ -34,7 +36,9 @@ export default function App() {
     <Route path='/view_portfolio' exact element={<View_Portfolio />}></Route>
     <Route path='/future_predictions' exact element={<The_FuturePredictions />}></Route>
     <Route path='/upload_Docs' exact element={<Upload_Docs />}></Route>
-    <Route></Route>
+    <Route path='/about_stocks/:stockId' exact element={<Aboutstocks />}></Route> 
+    <Route path='/List_Stocks' exact element={<Listingstocks />}></Route> 
+
 
 
   </Routes>

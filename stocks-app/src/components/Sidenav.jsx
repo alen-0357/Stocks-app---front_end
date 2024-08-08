@@ -168,6 +168,32 @@ const open = useAppStore((state) => state.dopen);
               </ListItemButton>
             </ListItem>
 
+            {/* Listing Stocks */}
+            <ListItem disablePadding sx={{ display: 'block' }} onClick={()=>{navigate("/List_Stocks")}}>
+              
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? 'initial' : 'center',
+                  px: 2.5,
+                }}
+              >
+                 <Tooltip title="Stocks List" variant="solid">
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}
+                >
+                <ListIcon /> 
+                </ListItemIcon>
+                </Tooltip>
+                <ListItemText primary="Stocks" sx={{ opacity: open ? 1 : 0 }} />
+              </ListItemButton>
+            </ListItem>
+
+
             <ListItem disablePadding sx={{ display: 'block' }}onClick={()=>{navigate("/upload_Docs")}}>
               <ListItemButton
                 sx={{

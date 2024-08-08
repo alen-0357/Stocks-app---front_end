@@ -316,11 +316,7 @@ const editData = (id,stock_name,stock_ticker) => {
               component="div"
               sx={{ flexGrow: 1 }}
             ></Typography>
-            <div className="btnStyle">
-            <Button variant="contained" endIcon={<AddCircleIcon />} onClick={handleOpen} >
-              Add
-            </Button>
-            </div>
+       
           </Stack>
           <Box height={10} />
       <TableContainer sx={{ maxHeight: 440 }}>
@@ -343,34 +339,7 @@ const editData = (id,stock_name,stock_ticker) => {
                   {/* {column.label} */}
                 </TableCell>
                
-                <TableCell
-                  align="left"
-                  style={{ minWidth: "100px" }}
-                >
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Events
-                  {/* {column.label} */}
-                </TableCell>
-                <TableCell
-                  align="left"
-                  style={{ minWidth: "100px" }}
-                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                Prices
-                  
-                </TableCell>
-                 <TableCell
-                  align="left"
-                  style={{ minWidth: "100px" }}
-                >
-                View Document
-                 
-                </TableCell>
-                <TableCell
-                  align="left"
-                  style={{ minWidth: "100px" }}
-                >&nbsp;
-                Actions
-                 
-                </TableCell>
+               
                
                 
                 
@@ -383,80 +352,19 @@ const editData = (id,stock_name,stock_ticker) => {
                 return (
                   <TableRow key={row.id} hover role="checkbox" tabIndex={-1} >
                         
-                        {/* <TableCell>
+                        <TableCell>
                         <Button 
                   variant="outlined"
                   onClick={() => handleNavigate(row.id)}>
                             {row.stock_name}
                             </Button>
-                        </TableCell> */}
-
-                        <TableCell >
-                            {row.stock_name}
                         </TableCell>
                        
                         <TableCell >
                             {row.stock_ticker}
                         </TableCell>
 
-                        <TableCell align="left">
-                          <Stack spacing={2} direction="row">
-                          <div className="btnStyler">
-                        <Button 
-                      variant="outlined"
-                      onClick={() => handleEventButtonClick(row.id)}
-                      // style={{ marginRight: '10px', alignSelf: 'flex-start' }}
                       
-                    >
-                      View Events
-                    </Button>
-                    </div>
-                    </Stack>
-                    </TableCell>
-                    <TableCell key={row.id} align="left">
-                    <Button 
-                            variant="outlined"
-                            onClick={() => handleViewPrices(row.stockName)}
-                          >
-                            View Prices
-                          </Button>
-                        </TableCell>
-                        <TableCell align="left">
-                {/* Render document button only if document exists */}
-                {documentButtonData[row.id] && (
-                  <Button
-                    variant="outlined"
-                    onClick={() => handleViewDocument(row.id)}
-                  >
-                    {documentButtonData[row.id].file_name} {/* Change to your document name field */}
-                  </Button>
-                )}
-              </TableCell>
-                        <TableCell align="left">
-                          <Stack spacing={2} direction="row">
-                            <EditIcon
-                              style={{
-                                fontSize: "20px",
-                                color: "blue",
-                                cursor: "pointer",
-                              }}
-                              className="cursor-pointer"
-                              onClick={() => {
-                                editData(row.id, row.stock_name, row.stock_ticker);
-                              }}
-                            />
-                            <DeleteIcon
-                              style={{
-                                fontSize: "20px",
-                                color: "darkred",
-                                cursor: "pointer",
-                              }}
-                              onClick={() => {
-                                deleteUser(row.id);
-                              }}
-                            />
-                          </Stack>
-                        </TableCell>
                   </TableRow>
                 );
               })}
