@@ -189,7 +189,7 @@ const open = useAppStore((state) => state.dopen);
                 <ListIcon /> 
                 </ListItemIcon>
                 </Tooltip>
-                <ListItemText primary="Stocks" sx={{ opacity: open ? 1 : 0 }} />
+                <ListItemText primary="Stocks List" sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
 

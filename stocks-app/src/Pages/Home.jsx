@@ -23,6 +23,7 @@ import StockTicker from "./Stocktickers";
 import Fetchuser from "../Extra_Homepage_res/Welcomeuser";
 import { useAppStore } from '../appStore'; // Import useAppStore
 import { keyframes } from '@mui/system';
+import StockRealtimeChart from "../Reports/stockrealtimechart";
 
 const stockData = [
   { name: "Apple", price: "150.25", trend: 0 }, // trend: 0 for initial state
@@ -367,15 +368,15 @@ const Home = () => {
               </Grid>
               
               <Grid item xs={4}>
-                <Homeposting />
+                {/* <Homeposting /> */}
               </Grid>
             </Grid>
             <br />
             <br />
             <Grid container spacing={3}>
-              <Grid item xs={12} sm={8}>
+              <Grid item xs={10} sm={10}>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                  <Fetchposts />
+                  <StockRealtimeChart />
                 </Box>
               </Grid>
             </Grid>
